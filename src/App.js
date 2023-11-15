@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -30,23 +29,30 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+      <div>
         {this.state.data !== null ? (
           <div>
             <h2>Prices:</h2>
-            <ul>
-              {this.state.data.prices.map((priceData, index) => (
-                <ul key={index}>
-                  <li>Price: {priceData.price}</li>
-                  <li>Start Date: {priceData.startDate}</li>
-                  <li>End Date: {priceData.endDate}</li>
-                </ul>
-              ))}
-            </ul>
+            <table>
+              <thead>
+                <tr>
+                  <th>Price</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.data.prices.map((priceData, index) => (
+                  <tr key={index}>
+                    <td>{priceData.price.toFixed(3)}€</td>
+                    <td>{new Date(priceData.startDate).toLocaleDateString('fi-FI', { month: 'numeric', day: 'numeric' })}</td>
+                    <td>{`${new Date(priceData.startDate).toLocaleTimeString('fi-FI', { hour:'numeric', minute: 'numeric'})} - ${new Date(priceData.endDate).toLocaleTimeString('fi-FI', { hour: 'numeric', minute: 'numeric'})}`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <h2>Raw JSON Data:</h2>
+            <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
           </div>
         ) : (
           <p>Loading...</p>
